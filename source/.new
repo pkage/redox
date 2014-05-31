@@ -1,0 +1,28 @@
+#! /usr/bin/env python
+import os,sys
+from time import strftime
+fn = raw_input("file to create: ")
+
+if os.path.exists(fn):
+	print "file exists!"
+	sys.exit(1)
+
+hg = raw_input("Header guard: ")
+
+f = open(fn , 'w')
+f.write("""//
+// """ + fn + """: redox language
+// created """ + strftime("%Y-%m-%d %H:%M:%S") + """
+// created by patrick kage
+//
+
+#ifndef """ + hg + """
+#define """ + hg + """
+
+
+
+#endif
+""")
+
+
+f.close()
