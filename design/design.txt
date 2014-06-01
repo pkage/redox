@@ -1,0 +1,14 @@
+what happens when you run a program?
+
+	1. pre-init does file existance verifications
+	2. Program_Options object assembled by preinitializer
+		a. insert external files
+	3. preprocessor strips everything onto it's own line and removes semicolons
+	4. syntaxer checks
+		a. mismatched open/close braces
+		b. mismatched open/close parentheses
+		c. compile list of functions & arguments
+		d. compile temporary list of variable names
+		e. check for invalid names
+	5. code blocks are executed recursively
+	6. 
