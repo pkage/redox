@@ -18,6 +18,25 @@ int main() {
 	cout << "Reading name with VarBase cast (!):\n";
 	cout << "Name: " << static_cast<redox::mem::types::VarBase*>(bmem.get_ptr(0))->get_name() << "\n";
 	cout << "Type: " << bmem.get_type(bmem.search("int1")) << "\n";
+	cout << "I/O with mem::Memory wrappers\n";
+	cout << "Writing \"C++ FTW\" to a string using a add_item cast with name testStr\n";
+	bmem.add_item(new string("C++ FTW"), redox::mem::types::STRING, "testStr");
+	cout << "Reading string back...\n";
+	cout << "Value: " << static_cast<redox::mem::types::String*>(bmem.get_ptr(bmem.search("testStr")))->read() << '\n';
+	cout << "Name: " << bmem.get_name(bmem.search("testStr")) << '\n';
+	cout << "\nLIBRARY TEST\n";
+	cout << "Creating lib object...\n";
+	redox::libs::Lib lib;
+	cout << "Initializing with \"exl\" as target...\n";
+	lib.init("exl");
+	cout << "Checking equeue... ";
+	if (error::equeue.are_errors()) {
+		cout << "Errors detected! Aborting...\nTrace: \n" << error::equeue.generate_report() << "\n";
+	} else {
+		cout << "empty.\n";
+	}
+	cout << "getting library name: " << lib.runfcn("__name", "") << "\n";
+	if (error::equeue.responder("")) return 1;
 	return 0;
 }
 

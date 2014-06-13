@@ -17,9 +17,9 @@ namespace redox {
 		namespace types {
 			enum Desc {VOID_V, VOID_S, STR_V, STR_S};
 			typedef void (*void_v)();
-			typedef void (*void_s)(std::string);
-			typedef std::string (*str_v)();
-			typedef std::string (*str_s)(std::string);
+			typedef void (*void_s)(const char*);
+			typedef char* (*str_v)();
+			typedef char* (*str_s)(const char*);
 		}
 		class Method {
 		public:
@@ -50,7 +50,7 @@ namespace redox {
 				}
 				types::str_v __info = (types::str_v) dlsym(ptr, "__info");
 				if (!__info) {
-					error::equeue.add_error(error::INVALIDLIB, "Library does not contain metadata.");
+					error::equeue.add_error(error::INVALIDLIB, "Library \"" + path + "\" does not contain metadata.");
 					valid = false;
 					return;
 				}
@@ -86,8 +86,44 @@ namespace redox {
 					} else if (ts1 == "ss") {
 						tmpm.init(types::STR_S, ts2);
 					}
+					methods.push_back(tmpm);
 				}
-				
+				// run __init()
+				types::void_v __init = (types::void_v) dlsym(ptr, "__init");
+				if (!__init) {
+					error::equeue.add_error(error::INVALIDLIB, "Library \"" + path + "\"does not contain __init()");
+					valid = false;
+					return;
+				} 
+				__init();
+				valid = true;
+				return;
+			}
+			std::string runfcn(std::string name, std::string args) {
+				for (int c = 0; c < methods.size(); c++) {
+					if (methods.at(c).name == name) {
+						switch (methods.at(c).type) {
+							case types::VOID_V:
+								{types::void_v fcn = (types::void_v) dlsym(ptr, name.c_str());
+								fcn();
+								return "";}
+							case types::VOID_S:
+								{types::void_s fcn = (types::void_s) dlsym(ptr, name.c_str());
+								fcn(args.c_str());
+								return "";}
+							case types::STR_V:
+								{types::str_v fcn = (types::str_v) dlsym(ptr, name.c_str());
+								return std::string(fcn());}
+							case types::STR_S:
+								{types::str_s fcn = (types::str_s) dlsym(ptr, name.c_str());
+								return std::string(fcn(args.c_str()));}
+							default:
+								break;
+						}
+					}
+				}
+				error::equeue.add_error(error::LIBMETHODNOTFOUND, "Method \"" + name + "\" not found in library \"" + path + "\"");
+				return "";
 			}
 		};
 	}

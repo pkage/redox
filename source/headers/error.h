@@ -19,6 +19,7 @@ namespace redox {
 			MISMATCHEDBLOCKS,
 			LIBNOTFOUND,
 			INVALIDLIB,
+			LIBMETHODNOTFOUND,
 			INTERNAL,
 			UNKERROR
 		};	
@@ -54,8 +55,10 @@ namespace redox {
 						init("LibraryNotFound", "File", origin, true, false);
 						break;
 					case INVALIDLIB:
-						init("InvalidLibraryError", "File", origin, true, false);
+						init("InvalidLibraryError", "Library", origin, true, false);
 						break;
+					case LIBMETHODNOTFOUND:
+						init("LibraryMethodNotFoundError", "Library", origin, true, true);
 					case INTERNAL:
 						init("InternalError", "Internal", origin, true, false);
 						break;
@@ -86,6 +89,19 @@ namespace redox {
 				queue.clear();
 			}
 			bool are_errors() {return (get_length() > 0);}
+			std::string generate_report() {
+				if (get_length() == 0) return "no errors.";
+				std::string out = "";
+				for (int c = 0; c < get_length(); c++) {
+					out += "Error: " + queue.at(c).error + "\n\tType: " + queue.at(c).error_type + "\n\tOrigin: " + queue.at(c).origin + "\n";
+				}
+				return out;
+			}
+			bool responder(std::string conditions) {
+				if (!are_errors()) return false;
+				std::cout << "An error occurred!\nHere's what we know:\n" << generate_report();
+				return true;
+			}
 		};
 		ErrorQueue equeue;
 	}

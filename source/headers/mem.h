@@ -96,13 +96,32 @@ namespace redox {
 				}
 				return -1;
 			}
-			bool add_item(void* value, int type) {
+			bool add_item(void* value, int type, std::string name) {
 				int slot = add_slot(type);
 				if (slot == -1) {
 					return false;
 				}
-				slots.at(slot) = value;
+				switch (type) {
+					case types::INT:
+						static_cast<types::Int*>(slots.at(slot))->init(*(static_cast<int*>(value)), name);
+						break;
+					case types::FLOAT:
+						static_cast<types::Float*>(slots.at(slot))->init(*(static_cast<float*>(value)), name);
+						break;
+					case types::CHAR:
+						static_cast<types::Char*>(slots.at(slot))->init(*(static_cast<char*>(value)), name);
+						break;
+					case types::STRING:
+						static_cast<types::String*>(slots.at(slot))->init(*(static_cast<std::string*>(value)), name);
+						break;
+					default:
+						break;
+				}
 				return true;
+			}
+			std::string get_name(int index) {
+				if (!valid(index)) {return "";}
+				return static_cast<types::VarBase*>(get_ptr(index))->get_name();
 			}
 		};
 	}
