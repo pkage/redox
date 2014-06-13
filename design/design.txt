@@ -11,4 +11,5 @@ what happens when you run a program?
 		d. compile temporary list of variable names
 		e. check for invalid names
 	5. code blocks are executed recursively
-	6. 
+
+

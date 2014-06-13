@@ -8,7 +8,8 @@
 #define RD_TOOLS
 
 namespace redox {
-	
+	namespace tools {
+	}
 }
 
 #endif
