@@ -59,6 +59,7 @@ namespace redox {
 						break;
 					case LIBMETHODNOTFOUND:
 						init("LibraryMethodNotFoundError", "Library", origin, true, true);
+						break;
 					case INTERNAL:
 						init("InternalError", "Internal", origin, true, false);
 						break;
@@ -93,13 +94,13 @@ namespace redox {
 				if (get_length() == 0) return "no errors.";
 				std::string out = "";
 				for (int c = 0; c < get_length(); c++) {
-					out += "Error: " + queue.at(c).error + "\n\tType: " + queue.at(c).error_type + "\n\tOrigin: " + queue.at(c).origin + "\n";
+					out += "\tError: " + queue.at(c).error + "\n\t\tType: " + queue.at(c).error_type + "\n\t\tOrigin: " + queue.at(c).origin + "\n";
 				}
 				return out;
 			}
 			bool responder(std::string conditions) {
 				if (!are_errors()) return false;
-				std::cout << "An error occurred!\nHere's what we know:\n" << generate_report();
+				std::cout << "An error occurred!\nHere's what we know:\n\tError occurred while " << conditions << "\n\tTrace: " << generate_report();
 				return true;
 			}
 		};

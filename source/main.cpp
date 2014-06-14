@@ -32,11 +32,13 @@ int main() {
 	cout << "Checking equeue... ";
 	if (error::equeue.are_errors()) {
 		cout << "Errors detected! Aborting...\nTrace: \n" << error::equeue.generate_report() << "\n";
+		return 1;
 	} else {
 		cout << "empty.\n";
 	}
+	cout << "Method declarations in \"exl\": " << lib.methodl << "\n";
 	cout << "getting library name: " << lib.runfcn("__name", "") << "\n";
-	if (error::equeue.responder("")) return 1;
+	if (error::equeue.responder("getting library name with __name()")) return 1;
 	return 0;
 }
 

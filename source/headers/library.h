@@ -17,9 +17,9 @@ namespace redox {
 		namespace types {
 			enum Desc {VOID_V, VOID_S, STR_V, STR_S};
 			typedef void (*void_v)();
-			typedef void (*void_s)(const char*);
-			typedef char* (*str_v)();
-			typedef char* (*str_s)(const char*);
+			typedef void (*void_s)(std::string);
+			typedef std::string (*str_v)();
+			typedef std::string (*str_s)(std::string);
 		}
 		class Method {
 		public:
@@ -38,6 +38,7 @@ namespace redox {
 			std::string name;
 			bool valid;
 		public:
+			std::string methodl;
 			Lib() {valid = false;}
 			~Lib() {dlclose(ptr);} // free the library when the object is destroyed.
 			void init(std::string path) {
@@ -51,13 +52,15 @@ namespace redox {
 				types::str_v __info = (types::str_v) dlsym(ptr, "__info");
 				if (!__info) {
 					error::equeue.add_error(error::INVALIDLIB, "Library \"" + path + "\" does not contain metadata.");
+//					std::cout << "flunked __info()\n"; // debug
 					valid = false;
 					return;
 				}
 				// begin tokenizing
 				std::string source = __info();
+//				std::cout << "running __info(): " << __info() << "\n"; // debug
 				std::vector<std::string> results; // tokenize the the __info return;
-				
+				methodl = source; // debug
 				size_t prev = 0;
 				size_t next = 0;
 				
@@ -124,6 +127,14 @@ namespace redox {
 				}
 				error::equeue.add_error(error::LIBMETHODNOTFOUND, "Method \"" + name + "\" not found in library \"" + path + "\"");
 				return "";
+			}
+			int isfcn(std::string name) { // return type if it's a function
+				for (int c = 0; c < methods.size(); c++) {
+					if (methods.at(c).name == name) {
+						return methods.at(c).type;
+					}
+				}
+				return -1;
 			}
 		};
 	}
