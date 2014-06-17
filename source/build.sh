@@ -1,3 +1,3 @@
 #! /bin/sh
 
-clang++ main.cpp -o main -std=c++11
+clang++ main.cpp -o rdx -std=c++11

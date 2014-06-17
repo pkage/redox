@@ -54,9 +54,9 @@ namespace redox {
 				} else if (components.at(0) == "if") {
 					optype = optypes::COMPARISON;
 					return;
-				} else if (components.at(c) == "while") {
+				} else if (components.at(0) == "while") {
 					optype = optypes::WHILE;
-					return
+					return;
 				} else {
 					optype = optypes::UNKNOWN;
 					return;
@@ -70,21 +70,27 @@ namespace redox {
 				int prev = 0;
 				int next = 0;
 				
-				while ((next = source.find_first_of(" ", prev)) != std::string::npos) {
+				while ((next = ln.find_first_of(" ", prev)) != std::string::npos) {
 					if (next - prev != 0) {
-						components.push_back(source.substr(prev, next - prev));
+						components.push_back(ln.substr(prev, next - prev));
 					}
 					prev = next + 1;
 				}
-				if (prev < source.size()) {
-					components.push_back(source.substr(prev));
+				if (prev < ln.size()) {
+					components.push_back(ln.substr(prev));
 				}
+				guessoptype();
 			}
 			void clear() {
-				compenents.clear();
+				components.clear();
 				optype = optypes::NONE;
 			}
 		};
+		void parseBlock(core::File &f, mem::Memory &mem, core::Block &block) {
+			for (int c = 0; c < block.length; c++) {
+				
+			}
+		}
 	}
 }
 
