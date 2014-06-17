@@ -32,13 +32,28 @@ int main() {
 	cout << "Checking equeue... ";
 	if (error::equeue.are_errors()) {
 		cout << "Errors detected! Aborting...\nTrace: \n" << error::equeue.generate_report() << "\n";
-		return 1;
+		error::equeue.clear();
 	} else {
 		cout << "empty.\n";
+		cout << "Method declarations in \"exl\": " << lib.methodl << "\n";
+		cout << "getting library name: " << lib.runfcn("__name", "") << "\n";
+		if (error::equeue.responder("getting library name with __name()")) return 1;
 	}
-	cout << "Method declarations in \"exl\": " << lib.methodl << "\n";
-	cout << "getting library name: " << lib.runfcn("__name", "") << "\n";
-	if (error::equeue.responder("getting library name with __name()")) return 1;
+	cout << "\nSTL TEST\n";
+	libs::Lib term;
+	cout << "Loading stl::term...\n";
+	term.init("term");
+	if (error::equeue.responder("loading \"term\" library")) return 1;
+	cout << "Method list: " << term.methodl << "\n";
+	cout << "Printing term.__name with term.println...\n";
+	term.runfcn("println", term.runfcn("__name",""));
+	if (error::equeue.responder("accessing functions in \"term\" stl library")) return 1;
+	cout << "Getting input and echoing...\n";
+	term.runfcn("print", "name: ");
+	term.runfcn("println", term.runfcn("get_line",""));
+	if (error::equeue.responder("accessing functions in \"term\" stl library")) return 1;
+	cout << "echoing complete.\n";
+	
 	return 0;
 }
 
