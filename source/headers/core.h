@@ -23,6 +23,7 @@ namespace redox {
 			std::string get_line(int index) {return ((valid(index)) ? bundle.at(index) : "");}
 			void add_line(std::string str) {bundle.push_back(str);}
 			void clear() {bundle.clear();}
+			
 		};
 		class Block {
 		public:
@@ -42,7 +43,8 @@ namespace redox {
 			Block contents;
 			int returntype;
 			mem::Memory scope;
-//			bool add_scope_var(void* ptr, int type, );
+			bool add_scope_var(void* ptr, int type, std::string name) {return false;}
+			}
 		};
 		class File {
 		public:

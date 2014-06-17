@@ -87,7 +87,7 @@ namespace redox {
 			}
 		};
 		void parseBlock(core::File &f, mem::Memory &mem, core::Block &block) {
-			for (int c = 0; c < block.length; c++) {
+			for (int c = 0; c < block.sb.length(); c++) {
 				
 			}
 		}
