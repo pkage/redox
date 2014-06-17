@@ -43,7 +43,8 @@ namespace redox {
 			Block contents;
 			int returntype;
 			mem::Memory scope;
-			bool add_scope_var(void* ptr, int type, std::string name) {return false;}
+			bool add_scope_var(void* ptr, int type, std::string name) {
+				scope.add_item(ptr, type, name);
 			}
 		};
 		class File {
