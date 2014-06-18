@@ -41,8 +41,10 @@ namespace redox {
 			std::string methodl;
 			Lib() {valid = false;}
 			~Lib() {dlclose(ptr);} // free the library when the object is destroyed.
-			void init(std::string path) {
+			void init(std::string path, std::string name) {
 				this->path = path;
+				this->name = name;
+				std::cout << "Attempting to load " + path + "...\n";
 				ptr = dlopen(path.c_str(), RTLD_LAZY);
 				if (!ptr) {
 					error::equeue.add_error(error::LIBNOTFOUND, dlerror());

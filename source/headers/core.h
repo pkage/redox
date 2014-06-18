@@ -10,6 +10,8 @@
 #include <vector>
 #include <fstream>
 #include "mem.h"
+#include "library.h"
+#include "error.h"
 
 namespace redox {
 	namespace core {
@@ -23,7 +25,8 @@ namespace redox {
 			std::string get_line(int index) {return ((valid(index)) ? bundle.at(index) : "");}
 			void add_line(std::string str) {bundle.push_back(str);}
 			void clear() {bundle.clear();}
-			
+			int length() {return bundle.size();}
+			bool overwrite(int index, std::string str) {if (valid(index)) bundle.at(index) = str; return valid(index);}
 		};
 		class Block {
 		public:
@@ -45,13 +48,34 @@ namespace redox {
 			mem::Memory scope;
 			bool add_scope_var(void* ptr, int type, std::string name) {
 				scope.add_item(ptr, type, name);
+				return false;
+			}
+			bool process_arg_string(std::string args) {
+				return false;
 			}
 		};
 		class File {
 		public:
+			StringBundle raw;
+			mem::Memory globals;
+			std::vector<Function> functions;
+			std::vector<libs::Lib> libraries;
 			
-			
-			
+			void load_from_file(std::string path) {
+				raw.clear();
+				std::ifstream ifile;
+				ifile.open(path.c_str());
+				if (!ifile) {
+					error::equeue.add_error(error::INVALIDFILE, "File \"" + path + "\" not found");
+					return;
+				}
+				std::string ln;
+				while (!ifile.eof()) {
+					std::getline(ifile, ln);
+					raw.add_line(ln);
+				}
+				
+			}
 		};
 	}
 

@@ -28,7 +28,8 @@ int main() {
 	cout << "Creating lib object...\n";
 	redox::libs::Lib lib;
 	cout << "Initializing with \"exl\" as target...\n";
-	lib.init("exl");
+	cout << "Loading library \"exl\" from [" << tools::get_lib_path() + "exl" << "]\n";
+	lib.init(tools::get_lib_path() + "exl", "exl");
 	cout << "Checking equeue... ";
 	if (error::equeue.are_errors()) {
 		cout << "Errors detected! Aborting...\nTrace: \n" << error::equeue.generate_report() << "\n";
@@ -42,7 +43,7 @@ int main() {
 	cout << "\nSTL TEST\n";
 	libs::Lib term;
 	cout << "Loading stl::term...\n";
-	term.init("term");
+	term.init(tools::get_lib_path() + "term", "term");
 	if (error::equeue.responder("loading \"term\" library")) return 1;
 	cout << "Method list: " << term.methodl << "\n";
 	cout << "Printing term.__name with term.println...\n";
@@ -54,6 +55,18 @@ int main() {
 	if (error::equeue.responder("accessing functions in \"term\" stl library")) return 1;
 	cout << "echoing complete.\n";
 	
+	cout << "\nPROCESSING TESTS\n";
+	cout << "Loading file...\nfile to load: ";
+	core::File file; file.load_from_file(term.runfcn("get_line", ""));
+	if (error::equeue.responder("opening file for reading")) return 1;
+	for (int c = 0; c < file.raw.length(); c++) {
+		cout << file.raw.get_line(c) << '\n';
+	}
+	cout << "preprocessing...\n";
+	prep::prep_file(file);
+	for (int c = 0; c < file.raw.length(); c++) {
+		cout << file.raw.get_line(c) << '\n';
+	}
 	return 0;
 }
 

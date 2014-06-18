@@ -1,0 +1,24 @@
+#! /usr/bin/rdx
+
+import os as opsys;
+import term;
+
+function [void] helloworld() {
+	term.print("\nhello world!");
+	return;
+}
+
+function [int] main() {
+	decl [int] number;
+	helloworld();
+	term.print("\npick a number: ");
+	number = cast [int] term.get_line();
+	if (number == 10) {
+		term.print("\nnumber is 10! fuck the number 10.");
+	} else {
+		term.print("\nnumber is ");
+		term.print(cast [string] number);
+		term.print("!");
+	}
+	opsys.system(term.get_line());
+}
