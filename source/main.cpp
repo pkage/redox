@@ -65,7 +65,7 @@ int main() {
 	cout << "preprocessing...\n";
 	prep::prep_file(file);
 	for (int c = 0; c < file.raw.length(); c++) {
-		cout << file.raw.get_line(c) << '\n';
+		cout << file.raw.get_line(c).length() << "\t| " << file.raw.get_line(c) << '\n';
 	}
 	return 0;
 }

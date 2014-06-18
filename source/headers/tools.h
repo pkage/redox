@@ -20,6 +20,9 @@ namespace redox {
 		std::string get_lib_path() {
 			return std::string(getenv(LIB_PATH_VAR));
 		}
+		std::string translateOptypeToString(int optype) {
+			std::string types = {};
+		}
 	}
 }
 

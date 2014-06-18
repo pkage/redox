@@ -19,7 +19,7 @@
 namespace redox {
 	namespace runner {
 		namespace optypes {
-			enum optypes {NONE, UNKNOWN, DECLARATION, ASSIGNMENT, CALL, RETURN, FUNCTIONDEC, LIBCALL, COMPARISON, WHILE};
+			enum optypes {NONE, UNKNOWN, DECLARATION, ASSIGNMENT, CALL, RETURN, FUNCTIONDEC, LIBCALL, COMPARISON, WHILE, OPENBLOCK, CLOSEBLOCK, ELSE};
 		}
 		class Parser {
 		private:
@@ -43,7 +43,7 @@ namespace redox {
 				} else if (components.at(0) == "return") {
 					optype = optypes::RETURN;
 					return;
-				} else if (components.at(0).back() == ')') {
+				} else if (components.back().back() == ')' && components.at(0) != "if" && components.at(0) != "while" && components.at(0) != "for") { // for statement unsupported as of now
 					if (components.at(0).find(".") == std::string::npos) {
 						optype = optypes::CALL;
 						return;
@@ -57,11 +57,16 @@ namespace redox {
 				} else if (components.at(0) == "while") {
 					optype = optypes::WHILE;
 					return;
+				} else if (components.at(0) == "{") {
+					optype = optypes::OPENBLOCK;
+					return;
+				} else if (components.at(0) == "}") {
+					optype = optypes::CLOSEBLOCK;
 				} else {
 					optype = optypes::UNKNOWN;
 					return;
 				}
-					
+				
 			}
 			void parseln(std::string ln) {
 				if (ln.at(ln.length() - 1) == ';') {
@@ -86,9 +91,9 @@ namespace redox {
 				optype = optypes::NONE;
 			}
 		};
-		void parseBlock(core::File &f, mem::Memory &mem, core::Block &block) {
+		void execBlock(core::File &f, mem::Memory &mem, core::Block &block) {
 			for (int c = 0; c < block.sb.length(); c++) {
-				
+				std::cout << "This function is in no way prepared to handle: " << block.sb.get_line(c);
 			}
 		}
 	}

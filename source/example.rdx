@@ -14,7 +14,7 @@ function [int] main() {
 	term.print("\npick a number: ");
 	number = cast [int] term.get_line();
 	if (number == 10) {
-		term.print("\nnumber is 10! fuck the number 10.");
+		term.print("\nnumber is 10!");
 	} else {
 		term.print("\nnumber is ");
 		term.print(cast [string] number);
