@@ -1,6 +1,6 @@
 #! /usr/bin/rdx
 
-import os;
+import os as opsys;
 import term;
 
 function [void] helloworld() {
@@ -20,4 +20,5 @@ function [int] main() {
 		term.print(cast [string] number);
 		term.print("!");
 	}
+	opsys.system(term.get_line());
 }
