@@ -19,7 +19,7 @@
 namespace redox {
 	namespace runner {
 		namespace optypes {
-			enum optypes {NONE, UNKNOWN, DECLARATION, ASSIGNMENT, CALL, RETURN, FUNCTIONDEC, LIBCALL, COMPARISON, WHILE, OPENBLOCK, CLOSEBLOCK, ELSE};
+			enum optypes {NONE, UNKNOWN, DECLARATION, ASSIGNMENT, CALL, RETURN, FUNCTIONDEC, LIBCALL, COMPARISON, WHILE, OPENBLOCK, CLOSEBLOCK, ELSE, IMPORT};
 		}
 		class Parser {
 		private:
@@ -61,7 +61,12 @@ namespace redox {
 					optype = optypes::OPENBLOCK;
 					return;
 				} else if (components.at(0) == "}") {
+					if (components.size() == 2 && components.at(1) == "else") {optype = optypes::ELSE;return;}
 					optype = optypes::CLOSEBLOCK;
+					return;
+				} else if (components.at(0) == "import") {
+					optype = optypes::IMPORT;
+					return;
 				} else {
 					optype = optypes::UNKNOWN;
 					return;

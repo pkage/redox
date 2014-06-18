@@ -64,8 +64,11 @@ int main() {
 	}
 	cout << "preprocessing...\n";
 	prep::prep_file(file);
+	runner::Parser ps;
 	for (int c = 0; c < file.raw.length(); c++) {
-		cout << file.raw.get_line(c).length() << "\t| " << file.raw.get_line(c) << '\n';
+		ps.clear();
+		ps.parseln(file.raw.get_line(c));
+		cout << file.raw.get_line(c).length() << "\t" << tools::optype_to_string_fp(ps.optype) << "\t| " << file.raw.get_line(c) << '\n';
 	}
 	return 0;
 }

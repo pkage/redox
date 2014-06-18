@@ -21,6 +21,7 @@ namespace redox {
 				while (line.at(0) == '\t') {
 					line = line.substr(1);
 				}
+				if (line.at(0) == '#' || line.substr(0,2) == "//") continue;
 				while (line.back() == ' ' || line.back() == '\t') {
 					line.pop_back();
 				}

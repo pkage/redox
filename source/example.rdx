@@ -1,5 +1,9 @@
 #! /usr/bin/rdx
 
+# this is a comment
+// this is also a comment
+// none of these should show up in the processed code
+
 import os as opsys;
 import term;
 

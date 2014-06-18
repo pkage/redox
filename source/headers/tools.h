@@ -20,8 +20,14 @@ namespace redox {
 		std::string get_lib_path() {
 			return std::string(getenv(LIB_PATH_VAR));
 		}
-		std::string translateOptypeToString(int optype) {
-			std::string types = {};
+		std::string optype_to_string_fp(int optype) {
+			std::string types[] = {"NONE", "UNKNOWN", "DECLARATION", "ASSIGNMENT", "CALL\t", "RETURN\t", "FUNCTIONDEC", "LIBCALL\t", "COMPARISON", "WHILE\t", "OPENBLOCK", "CLOSEBLOCK", "ELSE\t", "IMPORT\t"};
+			return types[optype];
+		}
+		std::string optype_to_string(int optype) {
+			std::string tmp = optype_to_string_fp(optype);
+			if (tmp.back() == '\t') tmp.pop_back();
+			return tmp;
 		}
 	}
 }
