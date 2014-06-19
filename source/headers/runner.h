@@ -95,6 +95,12 @@ namespace redox {
 				components.clear();
 				optype = optypes::NONE;
 			}
+			int size() {return components.size();}
+			bool valid(int addr) {return (addr >= 0 || addr < components.size());}
+			std::string component(int addr) {
+				if (!valid(addr)) return "";
+				return components.at(addr);
+			}
 		};
 		void execBlock(core::File &f, mem::Memory &mem, core::Block &block) {
 			for (int c = 0; c < block.sb.length(); c++) {

@@ -74,7 +74,33 @@ namespace redox {
 					std::getline(ifile, ln);
 					raw.add_line(ln);
 				}
-				
+			}
+			void initialize_libs() {
+				runner::Parser ps;
+				for (int c = 0; c < raw.length(); c++) {
+					ps.clear();
+					ps.parseln(raw.get_line(c));
+					if (ps.optype == runner::optypes::IMPORT) {
+						libs::Lib lib;
+						if (!(ps.size() == 2 || ps.size() == 4)) {
+							error::equeue.add_error(error::SYNTAXERROR, "library incorrectly specified for loading");
+							return;
+						}
+						for (int c = 1; c < ps.size(); c++) {
+							if (ps.component(c) == "") {
+								error::equeue.add_error(error::SYNTAXERROR, "library incorrectly specified for loading");
+								return;
+							}
+							
+						}
+						if (ps.component(2) == "as") {
+							lib.init(tools::get_lib_path() + ps.component(1), ps.component(3)); // import LIB as ALIAS
+						} else {
+							lib.init(tools::get_lib_path() + ps.component(1), ps.component(1));
+						}
+						libraries.push_back(lib);
+					}
+				}
 			}
 		};
 	}
