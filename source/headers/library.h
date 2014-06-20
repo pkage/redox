@@ -11,6 +11,7 @@
 #include <string>
 #include <dlfcn.h>
 #include "error.h"
+#include "core.h"
 
 namespace redox {
 	namespace libs {
@@ -31,6 +32,7 @@ namespace redox {
 			}
 		};
 		class Lib {
+		friend 
 		private:
 			void* ptr;
 			std::vector<Method> methods;

@@ -102,6 +102,11 @@ namespace redox {
 					}
 				}
 			}
+			void DBG_printlibs() {
+				for (int c = 0; c < libraries.size(); c++) {
+					std::cout << "
+				}
+			}
 		};
 	}
 
