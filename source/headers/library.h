@@ -32,7 +32,6 @@ namespace redox {
 			}
 		};
 		class Lib {
-		friend 
 		private:
 			void* ptr;
 			std::vector<Method> methods;
