@@ -12,6 +12,7 @@
 #include <dlfcn.h>
 #include "error.h"
 #include "core.h"
+#include "tools.h"
 
 namespace redox {
 	namespace libs {
@@ -131,6 +132,7 @@ namespace redox {
 				error::equeue.add_error(error::LIBMETHODNOTFOUND, "Method \"" + name + "\" not found in library \"" + path + "\"");
 				return "";
 			}
+			std::string get_name() {return name;}
 			int isfcn(std::string name) { // return type if it's a function
 				for (int c = 0; c < methods.size(); c++) {
 					if (methods.at(c).name == name) {

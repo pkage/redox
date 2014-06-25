@@ -9,6 +9,13 @@
 
 #include <stdlib.h>
 #include <string>
+#include <ctime>
+
+#ifdef __APPLE___
+#include <ranlib.h>
+#else
+#include <random>
+#endif
 
 #ifndef LIB_PATH_VAR
 #define LIB_PATH_VAR "RDX_LIBS"
@@ -28,6 +35,12 @@ namespace redox {
 			std::string tmp = optype_to_string_fp(optype);
 			if (tmp.back() == '\t') tmp.pop_back();
 			return tmp;
+		}
+		void init_rand() {
+			srand(time(0));
+		}
+		std::string gen_UID() {
+			
 		}
 	}
 }

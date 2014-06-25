@@ -10,6 +10,7 @@
 #include <vector>
 #include <fstream>
 #include "mem.h"
+#include "parse.h"
 #include "library.h"
 #include "error.h"
 
@@ -104,7 +105,7 @@ namespace redox {
 			}
 			void DBG_printlibs() {
 				for (int c = 0; c < libraries.size(); c++) {
-					std::cout << libraries.at(c).name;
+					std::cout << libraries.at(c).get_name();
 				}
 			}
 		};
