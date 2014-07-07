@@ -4,5 +4,7 @@
 #include "library.h"
 #include "mem.h"
 #include "parse.h"
+#include "flags.h"
+#include "io.h"
 #include "linter.h"
 #include "runner.h"

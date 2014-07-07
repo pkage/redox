@@ -7,6 +7,22 @@
 #ifndef RD_IO
 #define RD_IO
 
+#include <sstream>
+#include <iostream>
+#include "flags.h"
 
+
+namespace redox {
+	namespace log {
+		std::stringstream out;
+		void display() {
+			if (config::flags[config::SILENT]) {
+				std::cout << out.str();
+				out.clear();
+				out.str(std::string()); // to be sure.
+			}
+		}
+	}
+}
 
 #endif

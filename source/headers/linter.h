@@ -44,6 +44,8 @@ namespace redox {
 			for (int c = 0; c < sb.length(); c++) {
 				f.raw.add_line(sb.get_line(c));	
 			}
+			// SPLITTING MULTI-PART EXPRESSIONS
+			
 		}
 	}
 }

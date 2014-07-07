@@ -7,7 +7,9 @@ using namespace redox;
 
 void writeMem(redox::mem::Memory &bm);
 
-int main() {
+int main(int argc, char** argv) {
+	config::process_main(argc, argv);
+	tools::init_rand();
 	cout << "MEMORY TEST\n";
 	redox::mem::Memory bmem;
 	writeMem(bmem);
@@ -70,6 +72,18 @@ int main() {
 		ps.parseln(file.raw.get_line(c));
 		cout << file.raw.get_line(c).length() << "\t" << tools::optype_to_string_fp(ps.optype) << "\t| " << file.raw.get_line(c) << '\n';
 	}
+	cout << "\nTOOLKIT TEST\nGenerating a few random UIDs: \n";
+	for (int c = 0; c < 15; c++) {
+		cout <<  "\t" << tools::gen_UID() << "\n";
+	}
+	cout << "Loading UID library...\n";
+	libs::Lib uid;
+	uid.init(tools::get_lib_path() + "uid", "uid");
+	if (error::equeue.responder("loading UID library")) return 1;
+	cout << "Loaded UID library successfully.\nMethods exposed by UID: " << uid.methodl;
+	cout << "\nGetting a UID with uid.generate(): [" << uid.runfcn("generate", "") << "]\n";
+	if (error::equeue.responder("getting a UID")) return 1;
+	
 	return 0;
 }
 
